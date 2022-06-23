@@ -5,11 +5,16 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const banner = require("./banner.js")
 // const apiMocker = require("connect-api-mocker")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
+
+const mode = process.env.NODE_ENV || "development"
 
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode,
   entry: {
     main: "./src/app.js",
+    controller: "./src/controller.js",
   },
   output: {
     filename: "[name].js",
@@ -25,6 +30,22 @@ module.exports = {
       "/api": "http://localhost:8081",
     },
     hot: true,
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+    minimizer: 
+      mode === "production" ? [
+        new OptimizeCSSAssetsPlugin(),
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true, // 콘솔 로그를 제거한다
+            },
+          },
+        }),
+      ] : [],
   },
   module: {
     rules: [
