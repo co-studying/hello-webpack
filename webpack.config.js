@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const banner = require("./banner.js")
+// const apiMocker = require("connect-api-mocker")
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -13,6 +14,16 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve("./dist"),
+  },
+  devServer: {
+    overlay: true,
+    stats: "errors-only",
+    // before: app => {
+    //   app.use(apiMocker("/api", "mocks/api"))
+    // },
+    proxy: {
+      "/api": "http://localhost:8081",
+    }
   },
   module: {
     rules: [

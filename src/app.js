@@ -1,16 +1,9 @@
-import * as math from "./math.js"
-import "./style.css"
-import nyancat from './nyancat.png'
+import axios from 'axios'
 
-console.log(math.sum(1, 2)) // 3
+document.addEventListener('DOMContentLoaded', async () => {
+	const res = await axios.get('/api/users')
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#nyancat').innerHTML = `
-        <img src="${nyancat}" />
-    `
+	document.body.innerHTML = (res.data || [])
+		.map(user => `<div>${user.id}: ${user.name}</div>`)
+		.join('')
 })
-
-console.log(VERSION) // 'v.1.2.3'
-console.log(PRODUCTION) // true
-console.log(MAX_COUNT) // 999
-console.log(api.domain) // 'http://dev.api.domain.com'
