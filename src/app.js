@@ -1,6 +1,9 @@
+import { camelCase } from 'lodash-es'
 import form from './form'
 import result from './result'
 import './style.css'
+
+console.log(camelCase('Hello World'))
 
 let resultEl
 document.addEventListener('DOMContentLoaded', async () => {

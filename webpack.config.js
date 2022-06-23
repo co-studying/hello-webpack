@@ -7,6 +7,7 @@ const banner = require("./banner.js")
 // const apiMocker = require("connect-api-mocker")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const mode = process.env.NODE_ENV || "development"
 
@@ -14,7 +15,6 @@ module.exports = {
   mode,
   entry: {
     main: "./src/app.js",
-    controller: "./src/controller.js",
   },
   output: {
     filename: "[name].js",
@@ -90,6 +90,7 @@ module.exports = {
     ...(process.env.NODE_ENV === "production"
         ? [new MiniCssExtractPlugin({ filename: `[name].css` })]
         : []),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
 }
