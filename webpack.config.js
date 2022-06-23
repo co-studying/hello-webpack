@@ -23,7 +23,8 @@ module.exports = {
     // },
     proxy: {
       "/api": "http://localhost:8081",
-    }
+    },
+    hot: true,
   },
   module: {
     rules: [

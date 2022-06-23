@@ -1,9 +1,23 @@
-import axios from 'axios'
+import form from './form'
+import result from './result'
+import './style.css'
 
+let resultEl
 document.addEventListener('DOMContentLoaded', async () => {
-	const res = await axios.get('/api/users')
+    const formEl = document.createElement('div')
+    formEl.innerHTML = form.render()
+    document.body.appendChild(formEl)
 
-	document.body.innerHTML = (res.data || [])
-		.map(user => `<div>${user.id}: ${user.name}</div>`)
-		.join('')
+    resultEl = document.createElement('div')
+    resultEl.innerHTML = await result.render()
+    document.body.appendChild(resultEl)
 })
+
+if (module.hot) {
+    console.log('핫 모듈 켜짐')
+
+    module.hot.accept('./result', async () => {
+        console.log('result 모듈 변경됨.')
+        resultEl.innerHTML = await result.render()
+    })
+}
